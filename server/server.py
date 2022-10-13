@@ -1,20 +1,20 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, status
 from sqlalchemy.orm import Session
 from server.infra.sqlalchemy.repositorios.dominio import RepositorioDominio
 from server.infra.sqlalchemy.config.database import get_db, criar_bd
 from server.schemas.schemas import Dominio
 
 
-criar_bd()
+#criar_bd()
 
 app = FastAPI(debug=True)
 
-@app.post('/dominios')
+@app.post('/dominios', status_code=status.HTTP_201_CREATED)
 def criar_dominios(dominio: Dominio, db: Session = Depends(get_db)):
     dominio_criado = RepositorioDominio(db).criar(dominio)
     return dominio_criado
 
-@app.get('/dominios')
+@app.get('/dominios', status_code=status.HTTP_200_OK)
 def listar_dominios(db: Session = Depends(get_db)):
     dominios = RepositorioDominio(db).listar()
     return dominios
