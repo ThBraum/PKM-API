@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from server.schemas import schemas
 from server.infra.sqlalchemy.models import models
+from sqlalchemy import select, delete
 
 class RepositorioDominio():
     def __init__(self, db: Session):
@@ -18,8 +19,15 @@ class RepositorioDominio():
         dominios = self.db.query(models.Dominio).all()
         return dominios
 
-    def obter(self):
-        pass
+    def obter(self, dominio_id: int):
+        stmt = select(models.Dominio).filter_by(id=dominio_id)
+        obt_dominio = self.db.execute(stmt).one()
+        return obt_dominio
 
-    def remover(self):
-        pass
+    def remover(self, dominio_id: int):
+        stmt = delete(models.Dominio).where(models.Dominio.id == dominio_id)
+        
+        self.db.execute(stmt)
+        self.db.commit()
+        #self.db.refresh(del_dominio)
+        

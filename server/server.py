@@ -18,3 +18,13 @@ def criar_dominios(dominio: Dominio, db: Session = Depends(get_db)):
 def listar_dominios(db: Session = Depends(get_db)):
     dominios = RepositorioDominio(db).listar()
     return dominios
+    
+@app.get('/dominios/{dominio_id}')
+def obter_dominio(dominio_id: int, db: Session = Depends(get_db)):
+    obt_dominio = RepositorioDominio(db).obter(dominio_id)
+    return obt_dominio
+
+@app.delete('/dominios/{dominio_id}')
+def excluir_dominio(dominio_id: int, db: Session = Depends(get_db)):
+    obt_dominio = RepositorioDominio(db).remover(dominio_id)
+    return {"mensagem": f"Registro de id={dominio_id} removido"}
