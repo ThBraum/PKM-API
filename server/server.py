@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-#from server.schemas.schemas import Dominio
 from server.infra.sqlalchemy.repositorios.dominio import RepositorioDominio
 from server.infra.sqlalchemy.config.database import get_db, criar_bd
 from server.schemas.schemas import Dominio
