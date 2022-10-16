@@ -1,4 +1,3 @@
-from distutils import text_file
 from sqlalchemy.orm import Session
 from server.infra.sqlalchemy.models import models
 from server.schemas import schemas
@@ -11,7 +10,9 @@ class RepositorioTreinador():
     def criar(self, treinador: schemas.Treinador):
         session_treinador = models.Treinador(nome=treinador.nome, 
                                             lider_ginasio=treinador.lider_ginasio,
-                                            descricao=treinador.descricao)
+                                            descricao=treinador.descricao,
+                                            qt_insignias=treinador.qt_insignias,
+                                            qt_pokemons=treinador.qt_pokemons)
 
         self.session.add(session_treinador)
         self.session.commit()

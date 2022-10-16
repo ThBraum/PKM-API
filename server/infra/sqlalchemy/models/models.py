@@ -18,8 +18,8 @@ class Treinador(Base):
     nome = Column(String)
     lider_ginasio = Column(Boolean)
     descricao = Column(String)
-    #qt_insignias = Column(Integer)
-    #qt_pokemons = Column(Integer)
+    qt_insignias = Column(Integer)
+    qt_pokemons = Column(Integer)
 
     pokemons = relationship('Pokemon', back_populates='owner')
 

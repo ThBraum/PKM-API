@@ -15,8 +15,8 @@ class Treinador(BaseModel):
     nome: str
     lider_ginasio: boolean = False
     descricao: Optional[str] = None
-    #qtd_insignias: int
-    #qtd_pokemons: int
+    qt_insignias: int
+    qt_pokemons: int
 
     class Config:
         orm_mode = True
