@@ -26,7 +26,7 @@ class RepositorioPokemon():
 
     def obter(self, pokemon_id: int):
         stmt = select(models.Pokemon).filter_by(id=pokemon_id)
-        row = self.session.execute(stmt).scalars().one()
+        row = self.session.execute(stmt).scalars().first()
         return row
 
     def remover(self, pokemon_id: int):

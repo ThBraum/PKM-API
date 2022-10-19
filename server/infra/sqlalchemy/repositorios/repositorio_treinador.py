@@ -36,7 +36,7 @@ class RepositorioTreinador():
         #    raise HTTPException(
         #        status_code=status.HTTP_404_NOT_FOUND, detail=f'Dominio de id: {treinador_id} não encontrado'
         #    )
-        row = self.session.execute(stmt).scalars().one()
+        row = self.session.execute(stmt).scalars().first()
         return row
 
     def remover(self, treinador_id: int):

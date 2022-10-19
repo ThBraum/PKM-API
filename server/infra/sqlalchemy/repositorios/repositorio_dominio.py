@@ -28,7 +28,7 @@ class RepositorioDominio():
         #    raise HTTPException(
         #        status_code=status.HTTP_404_NOT_FOUND, detail=f'Dominio de id: {dominio_id} não encontrado'
         #    )
-        obt_dominio = self.session.execute(stmt).scalars().all()
+        obt_dominio = self.session.execute(stmt).scalars().first()
         return obt_dominio
 
     def remover(self, dominio_id: int):

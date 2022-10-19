@@ -1,3 +1,5 @@
+from ast import Try
+from logging import exception
 from fastapi import FastAPI, Depends, status
 from sqlalchemy.orm import Session
 from server.infra.sqlalchemy.repositorios.repositorio_dominio import RepositorioDominio
@@ -10,6 +12,10 @@ from typing import List
 #criar_bd()
 
 app = FastAPI(debug=True)
+
+@app.get('/')
+async def read_root():
+    return {"msg": "Hello World"}
 
 
 #DOMINIOS
@@ -34,10 +40,16 @@ def excluir_dominio(dominio_id: int, db: Session = Depends(get_db)):
     obt_dominio = RepositorioDominio(db).remover(dominio_id)
     return {"mensagem": f"Registro de id={dominio_id} removido"}
 
-@app.put('/dominios/', status_code=status.HTTP_200_OK, tags=["Put Methods"])
+@app.put('/dominios', status_code=status.HTTP_200_OK, tags=["Put Methods"])
 def atualizar_dominios(dominio: Dominio, db: Session = Depends(get_db)):
-    dominio_atualizado = RepositorioDominio(db).editar(dominio)
-    return dominio_atualizado
+    try:
+        dominio_para_att = RepositorioDominio(db).obter(dominio.id)
+        if dominio_para_att:
+            RepositorioDominio(db).editar(dominio)
+        dominio_atualizado = RepositorioDominio(db).obter(dominio.id)
+        return dominio_atualizado
+    except Exception as exception:
+        raise exception
 
 #------------------------------------
 
@@ -64,11 +76,16 @@ def excluir_treinador(treinador_id: int, db: Session = Depends(get_db)):
     obt_treinador = RepositorioTreinador(db).remover(treinador_id)
     return {"mensagem": f"Registro de id={treinador_id} removido"}
 
-@app.put('/treinadores/', status_code=status.HTTP_200_OK, tags=["Put Methods"])
+@app.put('/treinadores', status_code=status.HTTP_200_OK, tags=["Put Methods"])
 def atualizar_treinadores(treinador: Treinador, db: Session = Depends(get_db)):
-    treinador_atualizado = RepositorioTreinador(db).editar(treinador)
-    return treinador_atualizado
-
+    try:
+        treinador_para_att = RepositorioTreinador(db).obter(treinador.id)
+        if treinador_para_att:
+            RepositorioTreinador(db).editar(treinador)
+        treinador_atualizado = RepositorioTreinador(db).obter(treinador.id)
+        return treinador_atualizado
+    except Exception as exception:
+        raise exception
 #------------------------------------
 
 
@@ -95,8 +112,14 @@ def excluir_pokemon(pokemon_id: int, db: Session = Depends(get_db)):
     return {"mensagem": f"Registro de id={pokemon_id} removido"}
 
 
-@app.put('/pokemons/', status_code=status.HTTP_200_OK, tags=["Put Methods"])
+@app.put('/pokemons', status_code=status.HTTP_200_OK, tags=["Put Methods"])
 def atualizar_pokemons(pokemon: Pokemon, db: Session = Depends(get_db)):
-    pokemon_atualizado = RepositorioPokemon(db).editar(pokemon)
-    return pokemon_atualizado
+    try:
+        pokemon_para_att = RepositorioPokemon(db).obter(pokemon.id)
+        if pokemon_para_att:
+            RepositorioPokemon(db).editar(pokemon)
+        pokemon_atualizado = RepositorioPokemon(db).obter(pokemon.id)
+        return pokemon_atualizado
+    except Exception as exception:
+        return exception
 
